@@ -22,11 +22,10 @@ module Fog
 
         def item_list
           data = service.get_org_vdc_gateways(vdc.id).body
-          return [] if data[:EdgeGatewayReferences].empty?
-          gateway_references = data[:EdgeGatewayReferences][:EdgeGatewayReference]
-          items = gateway_references.select { |link| link[:type] == "application/vnd.vmware.admin.edgeGateway+xml" }
-          items.each{|item| service.add_id_from_href!(item) }
-          items
+          return [] if data[:EdgeGatewayRecord].empty?
+          gateway_references = data[:EdgeGatewayRecord]
+          gateway_references.each{|item| service.add_id_from_href!(item) }
+          gateway_references
         end
       end
     end
